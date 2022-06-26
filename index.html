@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" href="icon512.png"/>
+<title>SD Code Editor Download site</title>
+<style type="text/css" media="all">
+html {
+background-color: #323232;
+font-family: Sans-Serif,Arial,Helvetica;
+font-weight: 350;
+}
+.ki {
+background-color: #323232;
+-webkit-text-fill-color: transparent;
+background: linear-gradient(#ffaa00,#ff8c00);
+-webkit-background-clip: text;
+}
+img {
+height: 50%;
+width: 100%;
+}
+@media (orientation: landscape) {
+  img{
+      height: 48vw;
+      width: 48vw;
+      display: block;
+      margin: 0 auto;
+  }
+}
+button {
+text-align: center;
+display: block;
+margin: 0 auto;
+border: none;
+background: linear-gradient(#ffaa00,#ff8c00);
+color: white;
+border-radius: 2pt;
+padding: 6pt;
+font-weight: 500;
+font-size: 1.2em;
+}
+button:hover{
+box-shadow: 0 0 0 2.5pt rgba(255,170,102,1.00);
+}
+.p {
+color: white;
+font-weight: 500;
+font-size: 1.3em;
+}
+.left{
+text-align: left;
+}
+.cntr{
+text-align: center;
+}
+.fnt{
+font-size: 3em;
+}
+a{
+text-decoration: none;
+}
+</style>
+<link rel="manifest" href="manifest-editor.json" />
+</head>
+<body>
+<img src="icon512.png" alt="" />
+<div class="title">
+<h1 class="ki cntr fnt">SD Code Editor</h1>
+<button type="submit" id="install">install</button>
+<h3 class="p cntr">
+The SD Code Editor allows you to write programs on tablet, mobile.
+</h3>
+<h1 class="ki fnt">Features</h1>
+<dl>
+<dt><h3 class="p left">Syntax highlighting for over 110 languages</h3></dt>
+<dt><h3 class="p left">Over 20 themes</h3></dt>
+<dt><h3 class="p left">Automatic indent and outdents</h3></dt>
+<dt><h3 class="p left">Highlight matching parentheses</h3></dt>
+<dt><h3 class="p left">Displays hidden characters</h3></dt>
+<dt><h3 class="p left">Multiple cursors and selections</h3></dt>
+<dt><h3 class="p left">Search and replace with regular expressions</h3></dt>
+<dt><h3 class="p left">line wrapping</h3></dt>
+<dt><h3 class="p left">Cut, copy, and paste functionality</h3></dt>
+</dl>
+<h1 class="ki fnt">Note</h1>
+<h3 class="p left">please grant the presistant storage permission if asked by the browser.<br><br>you can code the file which are lessthan 1200kb because of web storage issues.<br><br>please download the files regularly so you code will be safe</h3>
+<a href="license.html"><h3 class="p cntr">Open Source License</h3></a>
+</div>
+<script>
+navigator.serviceWorker.register('service.js');
+const installApp = document.getElementById('install');
+let deferredPrompt = 'installed';
+window.addEventListener('beforeinstallprompt', (e) => {
+deferredPrompt = e;
+});
+installApp.addEventListener('click', async () => {
+try{
+if (deferredPrompt !== null && deferredPrompt !== 'installed') {
+deferredPrompt.prompt();
+const {
+outcome
+} = await deferredPrompt.userChoice;
+if (outcome === 'accepted') {
+deferredPrompt = null;
+}
+}
+}catch(error){
+installApp.textContent= 'installed';
+alert('the app is already installed');
+}
+});
+</script>
+</body>
+</html>
