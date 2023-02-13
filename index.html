@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<link rel="icon" href="icon512.png"/>
+<title>SD Code Editor Download site</title>
+<style type="text/css" media="all">
+html {
+background-color: #323232;
+font-family: Sans-Serif,Arial,Helvetica;
+font-weight: 350;
+}
+@media (min-width: 460px){
+    body{
+        width: 460px;
+        display: block;
+        margin: auto;
+    }
+}
+.ki {
+background-color: #323232;
+-webkit-text-fill-color: transparent;
+background: linear-gradient(#ffaa00,#ff8c00);
+-webkit-background-clip: text;
+background-clip: text;
+}
+img {
+width: 100%;
+}
+@media (orientation: landscape) {
+  img{
+      height: 48vw;
+      width: 48vw;
+      display: block;
+      margin: 0 auto;
+  }
+}
+button {
+text-align: center;
+display: inline-block;
+margin: 0 auto;
+border: none;
+background: linear-gradient(#ffaa00,#ff8c00);
+color: white;
+border-radius: 2pt;
+padding: 6pt;
+font-weight: 500;
+font-size: 1.2em;
+}
+button:hover{
+box-shadow: 0 0 0 2.5pt rgba(255,170,102,1.00);
+}
+.p {
+color: white;
+font-weight: 500;
+font-size: 1.3em;
+}
+.left{
+text-align: left;
+}
+.cntr{
+text-align: center;
+}
+.fnt{
+font-size: 3em;
+}
+a{
+text-decoration: none;
+}
+.trns-bgd{
+background-color: rgba(255,255,255,0.3);
+padding: 1.2rem;
+border-radius: 0.4rem;
+margin-top: 20px;
+}
+.button-disabled{
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+.button-disabled:hover{
+	box-shadow: none;
+}
+</style>
+<link rel="manifest" href="manifest-editor.json" />
+</head>
+<body>
+<img src="icon512.png" alt="" />
+<div class="title">
+<h1 class="ki cntr fnt">SD Code Editor</h1>
+<div class="cntr">
+<button type="submit" id="install" >install</button>
+<button onclick="openEditor()" >open editor</button>
+<div class="trns-bgd">
+<h3 class="p left">Note: for firefox,safari the install button will not work
+<br>
+<br>please follow these steps to install
+<br>1. click &#x22EE; options
+<br>2.click install in your options
+</h3>
+</div>
+</div>
+<h3 class="p cntr">
+The SD Code Editor allows you to write programs on tablet, mobile.
+</h3>
+<h1 class="ki fnt">Features</h1>
+<dl>
+<dt><h3 class="p left">Syntax highlighting for over 110 languages</h3></dt>
+<dt><h3 class="p left">Over 20 themes</h3></dt>
+<dt><h3 class="p left">Automatic indent and outdents</h3></dt>
+<dt><h3 class="p left">Highlight matching parentheses</h3></dt>
+<dt><h3 class="p left">Displays hidden characters</h3></dt>
+<dt><h3 class="p left">Multiple cursors and selections</h3></dt>
+<dt><h3 class="p left">Search and replace with regular expressions</h3></dt>
+<dt><h3 class="p left">line wrapping</h3></dt>
+<dt><h3 class="p left">Cut, copy, and paste functionality</h3></dt>
+</dl>
+<h1 class="ki fnt">Note</h1>
+<h3 class="p left">please grant the presistant storage permission if asked by the browser.<br><br>you can code the file which are lessthan 1200kb because of web storage issues.<br><br>please download the files regularly so you code will be safe</h3>
+<a href="license.html"><h3 class="p cntr">Open Source License</h3></a>
+<a href="editor.html" id="open-editor"></a>
+</div>
+<script>
+navigator.serviceWorker.register('service.js');
+const installApp = document.getElementById('install');
+let installed = Boolean(localStorage.getItem('installed'));
+if(installed){
+		installApp.disabled=true;
+		installApp.innerText='installed';
+		installApp.setAttribute('class','button-disabled');
+}
+
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevents the default mini-infobar or install dialog from appearing on mobile
+  e.preventDefault();
+  // Save the event because you'll need to trigger it later.
+  deferredPrompt = e;
+  // Show your customized install prompt for your PWA
+  // Your own UI doesn't have to be a single element, you
+  // can have buttons in different locations, or wait to prompt
+  // as part of a critical journey.
+});
+
+// Gather the data from your custom install UI event listener
+installApp.addEventListener('click', async () => {
+	if(installed){
+		installApp.disabled=true;
+		installApp.innerText='installed';
+		installApp.setAttribute('class','button-disabled');
+		return;
+	}
+  // deferredPrompt is a global variable we've been using in the sample to capture the `beforeinstallevent`
+  deferredPrompt.prompt();
+  // Find out whether the user confirmed the installation or not
+  const { outcome } = await deferredPrompt.userChoice;
+  // The deferredPrompt can only be used once.
+  deferredPrompt = null;
+  // Act on the user's choice
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt.');
+    localStorage.setItem('installed',true);
+	installApp.disabled=true;
+	installApp.innerText='installed';
+	installApp.setAttribute('class','button-disabled');
+  } else if (outcome === 'dismissed') {
+    console.log('User dismissed the install prompt');
+  }
+});
+
+
+function openEditor(){
+    document.querySelector('#open-editor').click()
+}
+</script>
+</body>
+</html>
