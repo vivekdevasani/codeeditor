@@ -48,13 +48,9 @@ ace.define("ace/snippets",["require","exports","module","ace/lib/dom","ace/lib/o
 <button onclick="showSettings()">open settings</button>-->
 <script>
 let storageUsed = 1,
-	openedFile = "noname.txt";
+	openedFile = "untitled.txt";
 let localDB = new PouchDB('sdcodeeditor-localDB');
-if(localStorage.getItem('openedFile')!==null){
-	localDB.get(openedFile).then(doc=>{
-		editor.setValue(doc.code,-1);
-	}).catch(err=>{console.log('error at inital setValue of editor')})
-}
+
 function getl() {
 	caches.open("ASD").then((e => {
 		e.keys().then((e => {
@@ -62,36 +58,7 @@ function getl() {
 		}))
 	}))
 }
-create({_id:openedFile,code:''})
-function create(dbname,emsg='$%^&'){
-	let listoffiles=[];
-	localDB.allDocs({
-	  include_docs: true
-	}).then(function (result) {
-		for(var i = 0;i<result.rows;i++){
-			listoffiles.push(result.rows[i]);
-		}
-	}).catch(function (err) {
-	  console.log(err,'alldocs() create()',db._id);
-	});
-	if(dbname._id in listoffiles){
-		console.log('the id alredy exists');
-		return;
-	}
-	localDB.put(dbname).catch(err=>{
-		if(emsg !== '$%^&'){
-			console.log(emsg);
-		}
-	})
-}
 
-function getLocDB(id){
-	localDB.get(id).then(doc=>{
-		console.log(doc);
-	}).catch(err=>{
-		console.log('getLocDB error',id)
-	})
-}
 
 function popupscreen() {
 	let e = document.createElement("div");
@@ -99,7 +66,6 @@ function popupscreen() {
 	e.setAttribute("id", "hio");
 	e.innerHTML = `<div class="setscrn-2"><div class="setscrn-3"><h1 class="ki cntr">SD Code Editor</h1><button onclick="back()" class="bank">back</button><button onclick="editor.redo()" class="bank">redo</button>
 	<button onclick="editor.undo()" class="bank">undo</button>
-	<button onclick="save()" class="bank">save</button>
 	<button onclick="(function(){let mode = editor.session.$modeId.replace('ace/mode/','');let atag = gid$('navigate'); atag.setAttribute('href','https://www.google.com/search?q='+mode+'+online ide free'); atag.setAttribute('target','_blank'); atag.setAttribute('rel','noopener noreferrer'); atag.click();})();" class="bank" >online IDE</button>
 <button onclick="showSettings()" class="bank">open settings</button>
 <br><details class="nig"><summary class="sum" id="filefetch">${openedFile}</summary><button onclick="download(openedFile)" class="filebut">download</button><button id="deleteButton" class="filebut">delete</button><button onclick="alert('You can rename the file while you download');" class="filebut">rename</button><br><b style="display:inline;">Open file</b><input type="file" id="inputfile" style="display:inline;"/></details><details class="nig"><summary class="sum">Open Source License</summary><br>ACE editor<p>Copyright (c) 2010, Ajax.org B.V. <br>All rights reserved. <br><br>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: <br> * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. <br> * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. <br> * Neither the name of Ajax.org B.V. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. <br> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL AJAX.ORG B.V. BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p></details></div></div>`;
@@ -108,78 +74,16 @@ function popupscreen() {
 		o = !1;
 	t.addEventListener("click", (() => {
 		confirm("the code that you have coded will be lost please save it before opening a new file.are you sure to open new file?") ? o = !1 : (confirm(`do you want to download ${openedFile}?`) && (download(openedFile), gid$("inputfile").click()), o = !0)
-	}));
-
-	t.addEventListener("change", (function() {
+	})), t.addEventListener("change", (function() {
 		if (o) return;
 		let e = t.files[0];
-		if((e.size / 1024).toFixed(2) < 1200){(async() => {
+		(e.size / 1024).toFixed(2) < 1200 ? ((async() => {
 			let t = await e.text();
-			editor.setValue(t, -1);
-			localDB.put({
-				_id:e.name,
-				code:t
-			}).catch(err=>{console.log('error at open save')})
-		})();
-		let listoffiles=[];
-		localDB.allDocs({
-		  include_docs: true
-		}).then(function (result) {
-			for(var i = 0;i<result.rows;i++){
-				listoffiles.push(result.rows[i]);
-			}
-		}).catch(function (err) {
-		  console.log(err,'alldocs() 127 line');
-		});
-		if(openedFile in listoffiles){
-		localDB.get(openedFile).then((doc)=>{
-			return localDB.remove(doc)
-		}).catch(err=>{
-			console.log('error at open clear existing')
-		})
-		}
-		openedFile = e.name;
-		gid$("filefetch").textContent = openedFile;
-		alert("please change the language mode");
-		}else{
-			alert("the size of file is greater than 1200KB.you can only open a file which is less than 1200KB")
-		}
-	}));
-	
-	gid$("deleteButton").addEventListener("click", () => {
-		if(0 != confirm(`are you sure to delete ${openedFile}?`)){
-		editor.setValue("");
-		let listoffiles=[];
-		localDB.allDocs({
-		  include_docs: true
-		}).then(function (result) {
-			for(var i = 0;i<result.rows;i++){
-				listoffiles.push(result.rows[i]);
-			}
-		}).catch(function (err) {
-		  console.log(err,'alldocs 156 line');
-		});
-		if(openedFile in listoffiles){
-		localDB.get(openedFile).then((doc)=>{
-			doc.code="";
-			return localDB.put(doc);
-		}).catch(err=>{
-			console.log('error at open clear existing')
-		})
-		}
-		openedFile = "noname.txt";
-		if(openedFile in listoffiles){
-		localDB.get(openedFile).then((doc)=>{
-			doc.code='';
-			return localDB.put(doc);
-		}).catch(err=>{
-			console.log('error at open clear existing')
-		})
-		}
-		gid$("filefetch").textContent = openedFile;
-		alert("file deleted sucessfully");
-		}
-	});
+			editor.setValue(t, -1), localStorage.setItem(e.name, t)
+		})(), localStorage.removeItem(openedFile), openedFile = e.name, gid$("filefetch").textContent = openedFile, alert("please change the language mode")) : alert("the size of file is greater than 1200KB.you can only open a file which is less than 1200KB")
+	})), document.getElementById("deleteButton").addEventListener("click", (() => {
+		0 != confirm(`are you sure to delete ${openedFile}?`) && (editor.setValue(""), openedFile = "untitled.txt", localStorage.removeItem(openedFile), gid$("filefetch").textContent = openedFile, alert("file deleted sucessfully"))
+	}))
 }
 
 function back() {
@@ -200,13 +104,8 @@ box = gid$("box"), box.addEventListener("touchmove", (function(e) {
 var editor = ace.edit("editor");
 
 function download(e) {
-	let data = '';
-	localDB.get(e).then(doc=>{
-		data = doc.code;
-	}).catch(err=>{console.log('error at download')})
-	setTimeout(()=>{
 	var t = document.createElement("a");
-	t.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(data)), t.setAttribute("download", prompt("enter the file name with extension.\nif you are willing to rename the file:") || openedFile), t.style.display = "none", document.body.appendChild(t), 1 == confirm("are you sure to download?") && t.click(), document.body.removeChild(t)},2000);
+	t.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(localStorage.getItem(e))), t.setAttribute("download", prompt("enter the file name with extension.\nif you are willing to rename the file:") || openedFile), t.style.display = "none", document.body.appendChild(t), 1 == confirm("are you sure to download?") && t.click(), document.body.removeChild(t)
 }
 editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), editor.setTheme(localStorage.getItem('theme')||"ace/theme/tomorrow_night_eighties"), editor.session.setUseWrapMode(!0), editor.setShowPrintMargin(!1), editor.setOptions({
 	enableBasicAutocompletion: !0,
@@ -214,20 +113,19 @@ editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), edi
 	enableLiveAutocompletion: !0
 }), editor.setOption("showInvisibles", !0);
 editor.setReadOnly(localStorage.getItem('readOnly')||false)
+editor.session.on("change", (e => {
+	storageUsed < 4500 ? localStorage.setItem(openedFile, editor.getValue()) : (alert("the storage is full."), editor.setReadOnly(!0))
+}));
 
-setInterval(function(){
-	localDB.get(openedFile).then(doc=>{
-		doc.code=editor.getValue();
-		return localDB.put(doc);
-	}).catch(err=>{console.log('failed at life cycle')})
-},60000)
-/*here*/
 
-setInterval((() => {
- localStorage.setItem("openedFile", openedFile);
+try {
+	null != localStorage.getItem("storageUsed") && (storageUsed = localStorage.getItem("storageUsed")), null != localStorage.getItem("openedFile") && (openedFile = localStorage.getItem("openedFile")), null == localStorage.getItem(openedFile) && "" == localStorage.getItem(openedFile) || editor.setValue(localStorage.getItem(openedFile), -1)
+} catch (e) {}
+navigator.storage && navigator.storage.persist && navigator.storage.persist(), setInterval((() => {
+	var e, t = 0;
+	for (e in localStorage) localStorage.hasOwnProperty(e) && (t += 2 * (localStorage[e].length + e.length));
+	storageUsed = (t / 1024).toFixed(2), localStorage.setItem("openedFile", openedFile), localStorage.setItem("storageUsed", storageUsed)
 }), 5e3);
-
-navigator.storage && navigator.storage.persist && navigator.storage.persist();
 editor.setFontSize(localStorage.getItem('fontsize')==null ? 16 : localStorage.getItem('fontsize'));
 
 function showSettings() {
@@ -258,21 +156,6 @@ function newset(){
 	localStorage.setItem('theme',editor.getOption('theme'));
 	localStorage.setItem('fontsize',editor.getOption('fontSize'));
 	localStorage.setItem('readOnly',editor.getOption('readOnly'));
-}
-
-editor.commands.addCommand({
-        name: "save",
-        bindKey: {win: "Ctrl-s", mac: "Command-s"},
-        exec: function(editor) {
-        	save();
-        }
-})
-
-function save(){
-	localDB.get(openedFile).then(doc=>{
-		doc.code = editor.getValue();
-		return localDB.put(doc)
-	}).catch(err=>{console.log('error at save()')})
 }
 </script>
 <!--2.ext-elastic-tabstops_lite.js-->

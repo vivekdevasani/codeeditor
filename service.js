@@ -1,9 +1,9 @@
 self.addEventListener('install', (e) => {
-   e.waitUntil(caches.open('SDcodeeditor').then((cache) => cache.addAll(['./editor.html','./ace.js'])),);
+   e.waitUntil(caches.open('SDcodeeditor').then((cache) => cache.addAll(['./editor.html','./ace.js','./ext-settings_menu.js','./pouchdb-7.3.0.min.js'])),);
 });
 
 self.addEventListener('activate', (e) => {
-    e.respondWith(caches.match('editor.html'));
+    console.log('activated new service-worker');
 });
 
 self.addEventListener('fetch', event => {
