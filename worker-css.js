@@ -1463,7 +1463,7 @@ var Colors = module.exports = {
     darkkhaki               : "#bdb76b",
     darkmagenta             : "#8b008b",
     darkolivegreen          : "#556b2f",
-    darkorange              : "#ff8c00",
+    darkorange              : "#117cf5",
     darkorchid              : "#9932cc",
     darkred                 : "#8b0000",
     darksalmon              : "#e9967a",
