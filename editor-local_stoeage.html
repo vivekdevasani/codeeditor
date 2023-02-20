@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>SD Code Editor</title><meta name="viewport" content="width=device-width" /><link rel="manifest" href="manifest-editor.json"/><link rel="icon" type="image/pmg" href="icon512.png"><meta name="theme-color" content="#323232">
+<head><meta charset="UTF-8"><title>Code Editor</title><meta name="viewport" content="width=device-width" /><link rel="manifest" href="manifest-editor.json"/><link rel="icon" type="image/pmg" href="icon512.png"><meta name="theme-color" content="#323232">
 <style>
 body {overflow: hidden;margin: 0px;font-family: Sans-Serif,Arial,Helvetica;}#editor { margin: 0 0 0 0;position: absolute;top: 0;bottom: 0;left: 0;right: 0;}.flt{position: fixed;height: 44px;width: 44px;background-color: #ffaa00;/*#ff8c00*/top: 90px;left: 0px;z-index: 200;opacity: 30%;border-radius: 5px;z-index: 8000;}.setscrn-1{position: fixed;height: 100%;width:100%;top: 0px;z-index: 9000;background-color: rgba(0,0,0,0.2);}.setscrn-2{position: fixed;height: 50%;width: 100%;bottom: 0px;background-color: black;padding: 55px auto;overflow: scroll;box-shadow: 0 0 37px rgba(0,0,0,0.5);}.nig{color:white;width: 90%;margin: 10px auto;padding: 6pt;border-radius: 3pt;background-color: rgba(255,255,255,0.3);}.sum{list-style: none;color: #ff8c00;font-size: 17pt;padding: 0 8pt;margin: 0 -6pt;font-weight: bold;text-shadow: 0 0 2px 4px rgba(0,0,0,0.2);}.nig[open] .sum {border-bottom: 2px solid black;padding: 0 8pt 6pt 8pt;}#ace_settingsmenu{font-family: Sans-Serif;}button{background-color: #ff8c00;border-radius: 3pt;border: none;padding: 3pt 8pt;font-size: 12pt;}.filebut{margin: 5pt 8pt;}.bank{margin: 10px 0 0 10px;}.ki {background-color: white;-webkit-text-fill-color: transparent;background: linear-gradient(#ffaa00,#ff8c00);-webkit-background-clip: text;}.cntr{text-align: center;}
 @media (min-width: 400px){
@@ -64,7 +64,7 @@ function popupscreen() {
 	let e = document.createElement("div");
 	e.setAttribute("class", "setscrn-1");
 	e.setAttribute("id", "hio");
-	e.innerHTML = `<div class="setscrn-2"><div class="setscrn-3"><h1 class="ki cntr">SD Code Editor</h1><button onclick="back()" class="bank">back</button><button onclick="editor.redo()" class="bank">redo</button>
+	e.innerHTML = `<div class="setscrn-2"><div class="setscrn-3"><h1 class="ki cntr">Code Editor</h1><button onclick="back()" class="bank">back</button><button onclick="editor.redo()" class="bank">redo</button>
 	<button onclick="editor.undo()" class="bank">undo</button>
 	<button onclick="(function(){let mode = editor.session.$modeId.replace('ace/mode/','');let atag = gid$('navigate'); atag.setAttribute('href','https://www.google.com/search?q='+mode+'+online ide free'); atag.setAttribute('target','_blank'); atag.setAttribute('rel','noopener noreferrer'); atag.click();})();" class="bank" >online IDE</button>
 <button onclick="showSettings()" class="bank">open settings</button>
@@ -133,7 +133,7 @@ function showSettings() {
 	editor.showSettingsMenu();
 	let mainBody = gid$('ace_settingsmenu');
 	let heading = document.createElement('H2');
-	let headingText = document.createTextNode('SD Code Editor');
+	let headingText = document.createTextNode('Code Editor');
 	heading.appendChild(headingText);
 	heading.setAttribute('class', 'ki cntr fnt');
 	let backButton = document.createElement('button');

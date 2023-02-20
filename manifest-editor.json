@@ -1,11 +1,11 @@
 {
-    "name":"SD code editor",
-    "short_name":"SD Code Editor",
+    "name":"Code Editor",
+    "short_name":"Code Editor",
     "display":"standalone",
     "background_color":"black",
     "theme_color":"#323232",
     "start_url":"editor.html",
-    "description":"SD Code Editor",
+    "description":"Code Editor",
     "icons":[
     {
     "src":"icon512.png",
