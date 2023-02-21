@@ -225,7 +225,6 @@ setInterval(function(){
 
 setInterval((() => {
  localStorage.setItem("openedFile", openedFile);
- newset()
 }), 5e3);
 
 navigator.storage && navigator.storage.persist && navigator.storage.persist();
@@ -258,6 +257,7 @@ function newset(){
 	localStorage.setItem('mode',editor.getOption('mode'));
 	localStorage.setItem('theme',editor.getOption('theme'));
 	localStorage.setItem('fontsize',editor.getOption('fontSize'));
+	localStorage.setItem('readOnly',editor.getOption('readOnly'));
 }
 
 editor.commands.addCommand({
