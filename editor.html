@@ -102,6 +102,8 @@ function popupscreen() {
 	<button onclick="save()" class="bank">save</button>
 	<button onclick="(function(){let mode = editor.session.$modeId.replace('ace/mode/','');let atag = gid$('navigate'); atag.setAttribute('href','https://www.google.com/search?q='+mode+'+online ide free'); atag.setAttribute('target','_blank'); atag.setAttribute('rel','noopener noreferrer'); atag.click();})();" class="bank" >online IDE</button>
 <button onclick="showSettings()" class="bank">open settings</button>
+<button onclick="loadjs()" class="bank">load js debug</button>
+<button onclick="runjs()" class="bank">run js</button>
 <br><details class="nig"><summary class="sum" id="filefetch">${openedFile}</summary><button onclick="download(openedFile)" class="filebut">download</button><button id="deleteButton" class="filebut">delete</button><button onclick="alert('You can rename the file while you download');" class="filebut">rename</button><br><b style="display:inline;">Open file</b><input type="file" id="inputfile" style="display:inline;"/></details><details class="nig"><summary class="sum">Open Source License</summary><br>ACE editor<p>Copyright (c) 2010, Ajax.org B.V. <br>All rights reserved. <br><br>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: <br> * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. <br> * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. <br> * Neither the name of Ajax.org B.V. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. <br> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL AJAX.ORG B.V. BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p></details></div></div>`;
     document.body.appendChild(e);
 	let t = document.getElementById("inputfile"),
@@ -274,6 +276,25 @@ function save(){
 		doc.code = editor.getValue();
 		return localDB.put(doc)
 	}).catch(err=>{console.log('error at save()')})
+}
+let erudathere = false;
+function loadjs(){
+	if(!erudathere){
+		(function () { var script = document.createElement('script'); script.src="eruda"; document.body.appendChild(script); script.onload = function () { 
+			eruda.init({
+				tool:['console']
+			});
+		} })();
+		let fea = ['elements', 'network', 'resources', 'info','settings'];
+		for(let i =0;i<fea.length;i++){
+		    eruda.remove(fea[i]);
+		}
+	}
+}
+function runjs(){
+	if(erudathere&&editor.getOption('mode').endsWith('javascript')){
+		eval(editor.getValue());
+	}
 }
 </script>
 <!--2.ext-elastic-tabstops_lite.js-->
