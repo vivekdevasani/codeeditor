@@ -1,5 +1,5 @@
 self.addEventListener('install', (e) => {
-   e.waitUntil(caches.open('SDcodeeditor').then((cache) => cache.addAll(['./editor.html','./ace.js','./ext-settings_menu.js','./pouchdb-7.3.0.min.js'])),);
+   e.waitUntil(caches.open('SDcodeeditor').then((cache) => cache.addAll(['./editor.html','./ace.js','./ext-settings_menu.js','./pouchdb-7.3.0.min.js','./eruda.min.js'])),);
 });
 
 self.addEventListener('activate', (e) => {
