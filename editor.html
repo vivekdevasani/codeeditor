@@ -281,7 +281,9 @@ let erudathere = false;
 function loadjs(){
 	if(!erudathere){
 		(function () { var script = document.createElement('script'); script.src="eruda.min.js"; document.body.appendChild(script); script.onload = function () { 
-			eruda.init();
+			eruda.init({
+				tool:['console']
+			});
 		} })();
 		let fea = ['elements', 'network', 'resources', 'info','settings'];
 		for(let i =0;i<fea.length;i++){
