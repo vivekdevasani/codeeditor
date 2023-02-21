@@ -281,14 +281,13 @@ let erudathere = false;
 function loadjs(){
 	if(!erudathere){
 		(function () { var script = document.createElement('script'); script.src="eruda.min.js"; document.body.appendChild(script); script.onload = function () { 
-			eruda.init({
-				tool:['console']
-			});
+			eruda.init();
 		} })();
-		let fea = ['elements', 'network', 'resources', 'info','settings'];
+		setTimeout(()=>{let fea = ['elements', 'network', 'resources', 'info','settings'];
 		for(let i =0;i<fea.length;i++){
 		    eruda.remove(fea[i]);
 		}
+		},1000)
 	}
 }
 function runjs(){
