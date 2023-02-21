@@ -280,7 +280,7 @@ function save(){
 let erudathere = false;
 function loadjs(){
 	if(!erudathere){
-		(function () { var script = document.createElement('script'); script.src="eruda"; document.body.appendChild(script); script.onload = function () { 
+		(function () { var script = document.createElement('script'); script.src="eruda.min.js"; document.body.appendChild(script); script.onload = function () { 
 			eruda.init();
 		} })();
 		let fea = ['elements', 'network', 'resources', 'info','settings'];
