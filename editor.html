@@ -225,6 +225,7 @@ setInterval(function(){
 
 setInterval((() => {
  localStorage.setItem("openedFile", openedFile);
+ newset()
 }), 5e3);
 
 navigator.storage && navigator.storage.persist && navigator.storage.persist();
