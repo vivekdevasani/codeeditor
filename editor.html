@@ -231,7 +231,6 @@ setInterval((() => {
 }), 5e3);
 
 navigator.storage && navigator.storage.persist && navigator.storage.persist();
-editor.setFontSize(localStorage.getItem('fontsize')==null ? 16 : localStorage.getItem('fontsize'));
 
 function showSettings() {
 	ace.require('ace/ext/settings_menu').init(editor);
