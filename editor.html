@@ -215,7 +215,7 @@ editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), edi
 	enableSnippets: !0,
 	enableLiveAutocompletion: !0
 }), editor.setOption("showInvisibles", !0);
-editor.setReadOnly(localStorage.getItem('readOnly')||false)
+
 
 setInterval(function(){
 	localDB.get(openedFile).then(doc=>{
@@ -259,8 +259,6 @@ function showSettings() {
 function newset(){
 	localStorage.setItem('mode',editor.getOption('mode'));
 	localStorage.setItem('theme',editor.getOption('theme'));
-	localStorage.setItem('fontsize',editor.getOption('fontSize'));
-	localStorage.setItem('readOnly',editor.getOption('readOnly'));
 }
 
 editor.commands.addCommand({
