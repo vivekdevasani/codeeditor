@@ -215,7 +215,8 @@ editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), edi
 	enableSnippets: true,
 	enableLiveAutocompletion: true
 });, editor.setOption("showInvisibles", true);
-editor.setFontSize(16)
+editor.setFontSize(16);
+editor.session.setUseWorker(false);
 
 setInterval(function(){
 	localDB.get(openedFile).then(doc=>{
@@ -248,15 +249,11 @@ function showSettings() {
 		gid$('settings_background_blur').click();
 		gid$('hio').remove();
 editor.setOptions({
-	enableBasicAutocompletion: false,
-	enableSnippets: false,
-	enableLiveAutocompletion: false
-})
-editor.setOptions({
 	enableBasicAutocompletion: true,
 	enableSnippets: true,
 	enableLiveAutocompletion: true
-})
+});
+editor.session.setUseWorker(false);
 		newset();
 	};
 	mainBody.insertBefore(backButton, mainBody.children[0]);
