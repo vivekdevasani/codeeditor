@@ -248,12 +248,12 @@ function showSettings() {
 		gid$('ace_settingsmenu').remove();
 		gid$('settings_background_blur').click();
 		gid$('hio').remove();
+editor.session.setUseWorker(false);
 editor.setOptions({
 	enableBasicAutocompletion: true,
 	enableSnippets: true,
 	enableLiveAutocompletion: true
 });
-editor.session.setUseWorker(false);
 		newset();
 	};
 	mainBody.insertBefore(backButton, mainBody.children[0]);
