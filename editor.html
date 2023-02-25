@@ -210,11 +210,11 @@ function download(e) {
 	var t = document.createElement("a");
 	t.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(data)), t.setAttribute("download", prompt("enter the file name with extension.\nif you are willing to rename the file:") || openedFile), t.style.display = "none", document.body.appendChild(t), 1 == confirm("are you sure to download?") && t.click(), document.body.removeChild(t)},2000);
 }
-editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), editor.setTheme(localStorage.getItem('theme')||"ace/theme/tomorrow_night_eighties"), editor.session.setUseWrapMode(!0), editor.setShowPrintMargin(!1), editor.setOptions({
-	enableBasicAutocompletion: !0,
-	enableSnippets: !0,
-	enableLiveAutocompletion: !0
-}), editor.setOption("showInvisibles", !0);
+editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), editor.setTheme(localStorage.getItem('theme')||"ace/theme/tomorrow_night_eighties"), editor.session.setUseWrapMode(true), editor.setShowPrintMargin(false), editor.setOptions({
+	enableBasicAutocompletion: true,
+	enableSnippets: true,
+	enableLiveAutocompletion: true
+});, editor.setOption("showInvisibles", true);
 
 
 setInterval(function(){
