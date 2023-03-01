@@ -214,6 +214,7 @@ editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), edi
 }), editor.setOption("showInvisibles", true);
 editor.setFontSize(16);
 
+
 setInterval(function(){
 	localDB.get(openedFile).then(doc=>{
 		doc.code=editor.getValue();
