@@ -213,7 +213,6 @@ editor.session.setMode(localStorage.getItem('mode')||"ace/mode/javascript"), edi
 	enableLiveAutocompletion: true
 }), editor.setOption("showInvisibles", true);
 editor.setFontSize(16);
-editor.session.setUseWorker(false);
 
 setInterval(function(){
 	localDB.get(openedFile).then(doc=>{
