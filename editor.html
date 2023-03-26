@@ -270,7 +270,7 @@ function save(){
 	localDB.get(openedFile).then(doc=>{
 		doc.code = editor.getValue();
 		return localDB.put(doc)
-	}).catch(err=>{console.log('error at save()')})
+	}).then(()=>{alert("file saved successfully")}).catch(err=>{console.log('error at save()')})
 }
 let erudathere = false;
 function loadjs(){
